@@ -1,0 +1,103 @@
+spring:
+  application:
+    name: orderService
+  profiles:
+    active: dev
+  cloud:
+    config:
+      override-none: true
+    nacos:
+      # nacos服务地址 三个地址 配任意一个即可 三个都不配 默认就是 - localhost:8848
+      server-addr: 192.168.197.128:8848
+      discovery:
+        # nacos服务地址
+        server-addr: 192.168.197.128:8848
+        # 默认命名空间 public
+        namespace: dev
+        # 默认分组 DEFAULT_GROUP
+        group: DEFAULT_GROUP
+        # 默认集群 DEFAULT
+        cluster-name: DEFAULT
+        enabled: true
+      config:
+        # nacos服务地址
+        server-addr: 192.168.197.128:8848
+        # 是否启用nacos配置中心
+        enabled: true
+        file-extension: yaml
+        # 默认命名空间 public 作为配置中心来说 这个配置项暂时没用
+        cluster-name: DEFAULT
+        # 默认命名空间 public
+        namespace: dev
+        # 默认分组 DEFAULT_GROUP 项目名称
+        group: DEFAULT_GROUP
+        # 是否启用动态刷新 即在nacos控制台修改配置文件 微服务能动态感知到修改 结合@RefreshScopes实现配置自动更新
+        refresh-enabled: true
+        # 扩展配置文件
+        extension-configs:
+          - data-id: orderService-ext-${spring.profiles.active}.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+        # 共享配置文件
+        shared-configs:
+          - data-id: orderService-share-${spring.profiles.active}.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+#logging:
+#  config: classpath:logback-spring.xml
+
+dubbo:
+  application:
+    name: orderService
+    qos-port: 33333
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: nacos://192.168.197.128:8848
+    parameters.namespace: dev
+    parameters.group: dubbo_group
+    timeout: 30000
+  consumer:
+    retries: 0
+    timeout: 60000
+
+############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: satoken
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 2592000
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: true
+  # token风格
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: false
+seata:
+  tx-service-group: mygroup
+  service:
+    vgroup-mapping:
+      mygroup: default
+  config:
+    type: nacos
+    nacos:
+      server-addr: 192.168.197.128:8848
+      group : DEFAULT_GROUP
+      namespace: dev
+      username: nacos
+      password: nacos
+      data-id: seataServer.properties
+
+  registry:
+    nacos:
+      server-addr: 192.168.197.128:8848
+      application: seata-server
+      group: DEFAULT_GROUP
+      cluster: default
+      username: nacos
+      password: nacos
