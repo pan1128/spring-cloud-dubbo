@@ -6,16 +6,21 @@
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="age" column="age" jdbcType="INTEGER"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="loginAccount" column="loginAccount" jdbcType="VARCHAR"/>
+        <result property="accountType" column="accountType" jdbcType="INTEGER"/>
+        <result property="pic" column="pic" jdbcType="VARCHAR"/>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="UserMap">
         select
-          id, name, age
+          id, name, age, password, loginAccount, accountType, pic, createTime, updateTime
         from user
         where id = #{id}
     </select>
-
 
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
@@ -31,35 +36,56 @@
             <if test="age != null">
                 and age = #{age}
             </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="loginAccount != null and loginAccount != ''">
+                and loginAccount = #{loginAccount}
+            </if>
+            <if test="accountType != null">
+                and accountType = #{accountType}
+            </if>
+            <if test="pic != null and pic != ''">
+                and pic = #{pic}
+            </if>
+            <if test="createTime != null">
+                and createTime = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and updateTime = #{updateTime}
+            </if>
         </where>
-    </select>
-    <select id="selectOneByNameUser" resultType="com.pan.common.entity.User">
-        select * from user where name=#{name}
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into user(name, age)
-        values (#{name}, #{age})
+        insert into user(name, age, password, loginAccount, accountType, pic, createTime, updateTime)
+        values (#{name}, #{age}, #{password}, #{loginAccount}, #{accountType}, #{pic}, #{createTime}, #{updateTime})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into user(name, age)
+        insert into user(name, age, password, loginAccount, accountType, pic, createTime, updateTime)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.name}, #{entity.age})
+        (#{entity.name}, #{entity.age}, #{entity.password}, #{entity.loginAccount}, #{entity.accountType}, #{entity.pic}, #{entity.createTime}, #{entity.updateTime})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into user(name, age)
+        insert into user(name, age, password, loginAccount, accountType, pic, createTime, updateTime)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.name}, #{entity.age})
+            (#{entity.name}, #{entity.age}, #{entity.password}, #{entity.loginAccount}, #{entity.accountType}, #{entity.pic}, #{entity.createTime}, #{entity.updateTime})
         </foreach>
         on duplicate key update
         name = values(name),
-        age = values(age)
+        age = values(age),
+        password = values(password),
+        loginAccount = values(loginAccount),
+        accountType = values(accountType),
+        pic = values(pic),
+        createTime = values(createTime),
+        updateTime = values(updateTime)
     </insert>
 
     <!--通过主键修改数据-->
@@ -72,6 +98,24 @@
             <if test="age != null">
                 age = #{age},
             </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="loginAccount != null and loginAccount != ''">
+                loginAccount = #{loginAccount},
+            </if>
+            <if test="accountType != null">
+                accountType = #{accountType},
+            </if>
+            <if test="pic != null and pic != ''">
+                pic = #{pic},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
         </set>
         where id = #{id}
     </update>
@@ -81,5 +125,12 @@
         delete from user where id = #{id}
     </delete>
 
+    <select id="selectOneByNameUser" resultMap="UserMap">
+        select * from user where loginAccount=#{loginAccount}
+    </select>
+
+    <select id="selectAll" resultMap="UserMap">
+        select * from user
+    </select>
 </mapper>
 

@@ -71,5 +71,7 @@ public interface UserDao {
     int deleteById(Integer id);
 
     User selectOneByNameUser(User user);
+
+    List<User> selectAll();
 }
 

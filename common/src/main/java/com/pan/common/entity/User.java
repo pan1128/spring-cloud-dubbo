@@ -1,6 +1,9 @@
 package com.pan.common.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * (User)实体类
@@ -8,6 +11,7 @@ import java.io.Serializable;
  * @author makejava
  * @since 2023-05-31 21:37:23
  */
+@Data
 public class User implements Serializable {
     private static final long serialVersionUID = 918809244121932190L;
     
@@ -17,30 +21,21 @@ public class User implements Serializable {
     
     private Integer age;
 
+    //登录账号密码
+    private String password;
 
-    public Integer getId() {
-        return id;
-    }
+    //登录账号
+    private String loginAccount;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    //账号类型
+    private String accountType;
 
-    public String getName() {
-        return name;
-    }
+    //头像
+    private String pic;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private LocalDateTime createTime;
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
+    private LocalDateTime updateTime;
 
 }
 

@@ -1,6 +1,7 @@
 package com.pan.orderservice.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.pan.common.dto.UserToken;
 import com.pan.common.entity.User;
 import com.pan.common.service.UserService;
 import com.pan.orderservice.common.ProjectProperty;
@@ -60,11 +61,11 @@ public class OrderController {
 
     @PostMapping("/login")
     public RespenseBean login(@RequestBody User user) {
-        User userDto = userService.selectOneByNameUser(user);
+        UserToken userDto = userService.login(user);
         if (userDto ==null){
             return RespenseBean.fail("账号不存在，登录失败！");
         }
-        StpUtil.login(userDto.getId());
+//        StpUtil.login(userDto.getId());
         return RespenseBean.success(StpUtil.getTokenInfo(), "登录成功");
     }
     @RequestMapping("isLogin")

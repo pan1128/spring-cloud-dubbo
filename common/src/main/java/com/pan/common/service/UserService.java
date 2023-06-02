@@ -1,7 +1,12 @@
 package com.pan.common.service;
 
 
+import com.github.pagehelper.PageInfo;
+import com.pan.common.dto.UserSearchDTO;
+import com.pan.common.dto.UserToken;
 import com.pan.common.entity.User;
+
+import java.util.List;
 
 /**
  * (User)表服务接口
@@ -49,5 +54,11 @@ public interface UserService {
      * @param user
      * @return
      */
-    User selectOneByNameUser(User user);
+    UserToken login(User user);
+
+    User register(User user);
+
+    List<User> selectAll();
+
+    PageInfo selectAllPage(UserSearchDTO userSearchDTO);
 }
