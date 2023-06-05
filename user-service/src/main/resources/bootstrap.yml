@@ -44,10 +44,16 @@ spring:
             group: DEFAULT_GROUP
             refresh: true
   jackson:
-    default-property-inclusion: non_null
     date-format: yyyy-MM-dd HH:mm:ss
+    #response 返回数据 是否忽略null值  non_null-忽略null值
+    default-property-inclusion: always
   gson:
     date-format: yyyy-MM-dd HH:mm:ss
+  redis:
+    host: 192.168.197.128
+    port: 6379
+    database: 0
+    password: 5674566yin
 #logging:
 #  config: classpath:logback-spring.xml
 pagehelper:

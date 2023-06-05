@@ -10,11 +10,14 @@ import com.pan.common.entity.User;
 import com.pan.common.service.UserService;
 import com.pan.common.utils.JwtUtil;
 import com.pan.common.utils.JwtUtils;
+import com.pan.userservice.config.RedisUtil;
 import com.pan.userservice.dao.UserDao;
+import com.pan.userservice.interceptor.TokenThreadLocal;
 import io.seata.core.context.RootContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -32,6 +35,11 @@ import java.util.List;
 @Slf4j
 @DubboService
 public class UserServiceImpl implements UserService {
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    @Autowired
+    private RedisUtil redisUtil;
     @Resource
     private UserDao userDao;
 
@@ -98,11 +106,19 @@ public class UserServiceImpl implements UserService {
         UserToken UserToken = new UserToken();
         BeanUtils.copyProperties(byNameUser,UserToken);
 
-        String token = JwtUtils.generateToken(byNameUser,new Date().getTime());
+        String token = jwtUtils.generateToken(byNameUser,new Date().getTime());
+        redisUtil.setEx("token_"+UserToken.getLoginAccount(),token,jwtUtils.getTOKEN_EXPIRE());
         UserToken.setToken(token);
         //密码正确登录成功
         return UserToken;
 
+    }
+
+    @Override
+    public UserToken logout(User user) {
+
+        redisUtil.remove("token_"+ TokenThreadLocal.get().getLoginAccount());
+        return null;
     }
 
     @Transactional(rollbackFor = Exception.class)

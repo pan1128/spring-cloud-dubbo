@@ -61,4 +61,6 @@ public interface UserService {
     List<User> selectAll();
 
     PageInfo selectAllPage(UserSearchDTO userSearchDTO);
+
+    UserToken logout(User user);
 }

@@ -1,4 +1,4 @@
-package com.pan.userservice.common;
+package com.pan.common.entity;
 
 
 public class RespenseBean<T> {

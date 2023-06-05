@@ -7,7 +7,7 @@ import com.pan.common.dto.UserToken;
 import com.pan.common.entity.User;
 import com.pan.common.service.UserService;
 import com.pan.userservice.common.ProjectProperty;
-import com.pan.userservice.common.RespenseBean;
+import com.pan.common.entity.RespenseBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -27,8 +27,6 @@ public class UserController {
 
     @Autowired
     private UserService userService2;
-    @Value("${anliang.name}")
-    private String name;
 
     @GetMapping("/test/{id}")
     public RespenseBean hello(@PathVariable Integer id) {
@@ -38,19 +36,28 @@ public class UserController {
         User user = userService2.insert(user1);
         return RespenseBean.success(user);
     }
-
     @PostMapping("/add")
     public RespenseBean add(@RequestBody User user) {
         User insert = userService.insert(user);
         return RespenseBean.success(insert);
     }
 
-    //注册接口
+
+    /**
+     * 查询用户list
+     * @return
+     */
     @PostMapping("/selectAll")
     public RespenseBean selectAll() {
         List<User> list = userService.selectAll();
         return RespenseBean.success(list);
     }
+
+    /**
+     * 分页查询用户
+     * @param userSearchDTO
+     * @return
+     */
     @PostMapping("/selectAllPage")
     public RespenseBean selectAllPage(@RequestBody UserSearchDTO userSearchDTO) {
         PageInfo page = userService.selectAllPage(userSearchDTO);
@@ -68,6 +75,21 @@ public class UserController {
         return RespenseBean.success(userDto, "登录成功");
     }
 
+    /**
+     * 退出
+     * @param user
+     * @return
+     */
+    @PostMapping("/logout")
+    public RespenseBean logout() {
+        UserToken userDto = userService.logout(null);
+        return RespenseBean.success(userDto, "退出成功");
+    }
+
+    /**
+     * 用户是否登录
+     * @return
+     */
     @RequestMapping("isLogin")
     public String isLogin() {
         return "当前会话是否登录：" + StpUtil.isLogin();
