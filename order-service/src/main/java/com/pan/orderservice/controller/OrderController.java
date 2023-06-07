@@ -2,10 +2,10 @@ package com.pan.orderservice.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.pan.common.dto.UserToken;
+import com.pan.common.entity.RespenseBean;
 import com.pan.common.entity.User;
 import com.pan.common.service.UserService;
 import com.pan.orderservice.common.ProjectProperty;
-import com.pan.orderservice.common.RespenseBean;
 import com.pan.orderservice.entity.Order;
 import com.pan.orderservice.feign.UserServiceFeign;
 import com.pan.orderservice.service.OrderService;
@@ -57,22 +57,10 @@ public class OrderController {
         userService.insert(user);
         return RespenseBean.success(insert);
     }
-    //注册接口
 
-    @PostMapping("/login")
-    public RespenseBean login(@RequestBody User user) {
-        UserToken userDto = userService.login(user);
-        if (userDto ==null){
-            return RespenseBean.fail("账号不存在，登录失败！");
-        }
-//        StpUtil.login(userDto.getId());
-        return RespenseBean.success(StpUtil.getTokenInfo(), "登录成功");
+    @PostMapping("/selectAllUser")
+    public RespenseBean selectAllUser(@RequestHeader("token") String token) {
+        RespenseBean respenseBean = userServiceFeign.selectAll(token);
+        return respenseBean;
     }
-    @RequestMapping("isLogin")
-    public String isLogin() {
-        return "当前会话是否登录：" + StpUtil.isLogin();
-    }
-    //登录接口
-
-    //验证码接口
 }

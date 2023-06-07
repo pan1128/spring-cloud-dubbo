@@ -132,5 +132,9 @@
     <select id="selectAll" resultMap="UserMap">
         select * from user
     </select>
+
+    <select id="selectAllPage" resultMap="UserMap">
+        select * from user
+    </select>
 </mapper>
 

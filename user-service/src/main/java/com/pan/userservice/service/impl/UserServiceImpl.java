@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageInfo selectAllPage(UserSearchDTO userSearchDTO) {
         PageHelper.startPage(userSearchDTO.getPageNum(), userSearchDTO.getPageSize());
-        List<User> list = userDao.selectAll();
+        List<User> list = userDao.selectAllPage(userSearchDTO);
         PageInfo pageInfo = new PageInfo((Page)list);
         return pageInfo;
     }

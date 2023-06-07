@@ -43,6 +43,9 @@ spring:
           - data-id: userService-share-${spring.profiles.active}.yaml
             group: DEFAULT_GROUP
             refresh: true
+    sentinel:
+      transport:
+        dashboard: 192.168.197.128:8809
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     #response 返回数据 是否忽略null值  non_null-忽略null值
@@ -53,6 +56,12 @@ spring:
     host: 192.168.197.128
     port: 6379
     database: 0
+    password: 5674566yin
+  rabbitmq:
+    host: 192.168.197.128
+    port: 5672
+    virtual-host: /ssl
+    username: root
     password: 5674566yin
 #logging:
 #  config: classpath:logback-spring.xml

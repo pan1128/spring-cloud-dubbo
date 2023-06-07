@@ -43,6 +43,11 @@ spring:
           - data-id: orderService-share-${spring.profiles.active}.yaml
             group: DEFAULT_GROUP
             refresh: true
+    sentinel:
+      transport:
+        port: 9999
+        dashboard: 192.168.197.128:8809
+
 #logging:
 #  config: classpath:logback-spring.xml
 
@@ -101,3 +106,22 @@ seata:
       cluster: default
       username: nacos
       password: nacos
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 5000
+  sentinel:
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # must be greater than connect-timeout + read-timeout hystrix超时异常 时间
+            timeoutInMilliseconds: 11000

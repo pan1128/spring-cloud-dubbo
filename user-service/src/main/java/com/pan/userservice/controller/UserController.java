@@ -14,6 +14,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RefreshScope
 @RestController
@@ -48,7 +49,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/selectAll")
-    public RespenseBean selectAll() {
+    public RespenseBean selectAll() throws InterruptedException {
+//        TimeUnit.SECONDS.sleep(3);
         List<User> list = userService.selectAll();
         return RespenseBean.success(list);
     }

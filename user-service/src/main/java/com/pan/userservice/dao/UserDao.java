@@ -1,5 +1,6 @@
 package com.pan.userservice.dao;
 
+import com.pan.common.dto.UserSearchDTO;
 import com.pan.common.entity.User;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -73,5 +74,7 @@ public interface UserDao {
     User selectOneByNameUser(User user);
 
     List<User> selectAll();
+
+    List<User> selectAllPage(UserSearchDTO userSearchDTO);
 }
 
