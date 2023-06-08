@@ -17,6 +17,7 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+        <!-- sentinel服务治理 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>

@@ -109,7 +109,7 @@ seata:
   tx-service-group: mygroup1
   service:
     vgroup-mapping:
-      mygroup1: default
+      mygroup1: default # default为默认集群名称 在seata-server配置文件中配置 cluster
   config:
     type: nacos
     nacos:
@@ -127,3 +127,4 @@ seata:
       cluster: default
       username: nacos
       password: nacos
+

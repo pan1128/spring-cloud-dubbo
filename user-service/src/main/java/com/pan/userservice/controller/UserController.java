@@ -4,17 +4,20 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.github.pagehelper.PageInfo;
 import com.pan.common.dto.UserSearchDTO;
 import com.pan.common.dto.UserToken;
+import com.pan.common.entity.RespenseBean;
 import com.pan.common.entity.User;
 import com.pan.common.service.UserService;
 import com.pan.userservice.common.ProjectProperty;
-import com.pan.common.entity.RespenseBean;
+import io.minio.MinioClient;
+import org.redisson.Redisson;
+import org.redisson.api.RLock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @RefreshScope
 @RestController
@@ -25,6 +28,12 @@ public class UserController {
 
     @Autowired(required = false)
     private UserService userService;
+
+    @Autowired
+    private MinioClient minioClient;
+
+    @Resource
+    private Redisson redisson;
 
     @Autowired
     private UserService userService2;
@@ -51,8 +60,18 @@ public class UserController {
     @PostMapping("/selectAll")
     public RespenseBean selectAll() throws InterruptedException {
 //        TimeUnit.SECONDS.sleep(3);
-        List<User> list = userService.selectAll();
-        return RespenseBean.success(list);
+        RLock lock = redisson.getLock("all");
+        boolean tryLock = lock.tryLock();
+        if (tryLock){
+            try {
+                List<User> list = userService.selectAll();
+
+                return RespenseBean.success(list);
+            }finally {
+                lock.unlock();
+            }
+        }
+        return RespenseBean.success(null);
     }
 
     /**
@@ -72,7 +91,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public RespenseBean login(@RequestBody User user) {
+    public RespenseBean login(@Validated @RequestBody User user) {
         UserToken userDto = userService.login(user);
         return RespenseBean.success(userDto, "登录成功");
     }

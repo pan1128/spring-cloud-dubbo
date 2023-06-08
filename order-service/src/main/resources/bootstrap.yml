@@ -47,6 +47,10 @@ spring:
       transport:
         port: 9999
         dashboard: 192.168.197.128:8809
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
 
 #logging:
 #  config: classpath:logback-spring.xml
