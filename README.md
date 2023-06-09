@@ -2,6 +2,15 @@
 ## 项目介绍
 spring-cloud-alibaba、springboot、springcloud、dubbo项目脚手架，开箱即用
 
+## 项目结构
+
+``` lua
+
+├── common -- 工具类及通用代码模块
+├── user-service -- 用户微服务
+├── order-service -- 订单微服务
+└── config -- 配置中心存储的配置
+```
 ## 技术选型
 
 ### 后端技术
