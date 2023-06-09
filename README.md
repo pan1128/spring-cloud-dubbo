@@ -2,17 +2,6 @@
 ## 项目介绍
 spring-cloud-alibaba、springboot、springcloud、dubbo项目脚手架，开箱即用
 
-springboot版本：2.3.12.RELEASE
-
-springcloud版本：Hoxton.SR12
-
-springcloudalibaba版本：2.2.10-RC1
-
-分布式事务seata版本：1.6.1
-
-dubbo版本: 3.2.0-beta.4
-
-sentinel-server版本：1.8.5
 ## 技术选型
 
 ### 后端技术
@@ -33,6 +22,6 @@ sentinel-server版本：1.8.5
 | OSS                    | 对象存储             | https://github.com/aliyun/aliyun-oss-java-sdk        |
 | MinIO                  | 对象存储             | https://github.com/minio/minio                       |
 | JWT                    | JWT登录支持          | https://github.com/jwtk/jjwt                         |
-| LogStash               | 日志收集             | https://github.com/logstash/logstash-logback-encoder |
+| dubbo               | 日志收集             | 3.2.0-beta.4 |
 | Lombok                 | 简化对象封装工具     | https://github.com/rzwitserloot/lombok               |
-| Seata                  | 全局事务管理框架     | https://github.com/seata/seata                       |
+| Seata                  | 全局事务管理框架     | 1.6.1                       |
