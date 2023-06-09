@@ -63,6 +63,16 @@ spring:
     virtual-host: /ssl
     username: root
     password: 5674566yin
+  data:
+    mongodb:
+#      uri: mongodb://192.168.197.128:27017/articledb
+#      username: root
+#      password: 5674566yin
+      username: ssl
+      password: 5674566yin
+      database: articledb
+      host: 192.168.197.128
+      port: 27017
 #logging:
 #  config: classpath:logback-spring.xml
 pagehelper:
@@ -127,4 +137,3 @@ seata:
       cluster: default
       username: nacos
       password: nacos
-

@@ -8,6 +8,8 @@ import com.pan.common.entity.RespenseBean;
 import com.pan.common.entity.User;
 import com.pan.common.service.UserService;
 import com.pan.userservice.common.ProjectProperty;
+import com.pan.userservice.entity.MongodbUser;
+import com.pan.userservice.mongodbdao.MongodbUserRepository;
 import io.minio.MinioClient;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
@@ -17,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RefreshScope
@@ -37,6 +40,9 @@ public class UserController {
 
     @Autowired
     private UserService userService2;
+
+    @Autowired
+    private MongodbUserRepository mongodbUserRepository;
 
     @GetMapping("/test/{id}")
     public RespenseBean hello(@PathVariable Integer id) {
@@ -93,6 +99,13 @@ public class UserController {
     @PostMapping("/login")
     public RespenseBean login(@Validated @RequestBody User user) {
         UserToken userDto = userService.login(user);
+        MongodbUser mongodbUser = new MongodbUser();
+        mongodbUser.setContent("评论");
+        mongodbUser.setTime(LocalDateTime.now());
+        mongodbUser.setAge(22);
+
+
+        MongodbUser insert = mongodbUserRepository.insert(mongodbUser);
         return RespenseBean.success(userDto, "登录成功");
     }
 
