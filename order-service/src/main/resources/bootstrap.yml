@@ -51,7 +51,6 @@ spring:
     multipart:
       max-request-size: 100MB
       max-file-size: 100MB
-
 #logging:
 #  config: classpath:logback-spring.xml
 
@@ -113,15 +112,28 @@ seata:
 feign:
   hystrix:
     enabled: true
+  httpclient:
+    enabled: true
+    max-connections: 200
+    max-connections-per-route: 50
+    connection-timeout: 5000
   client:
     config:
       default:
+        loggerLevel: full
         connect-timeout: 5000
         read-timeout: 5000
+        decode404: false
+
   sentinel:
     enabled: true
+  circuitbreaker:
+    enabled: false
 
 hystrix:
+  plugin:
+    HystrixConcurrencyStrategy:
+      implementation: com.pan.orderservice.feign.ResquestAttributeHystrixConcurrencyStrategy
   command:
     default:
       execution:
@@ -129,3 +141,6 @@ hystrix:
           thread:
             # must be greater than connect-timeout + read-timeout hystrix超时异常 时间
             timeoutInMilliseconds: 11000
+logging:
+  level:
+    com.pan.orderservice.feign: debug

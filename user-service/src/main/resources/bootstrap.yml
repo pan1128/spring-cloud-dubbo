@@ -46,6 +46,7 @@ spring:
     sentinel:
       transport:
         dashboard: 192.168.197.128:8809
+      block-page: com.pan.userservice.config.ExceptionHandlerPage
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     #response 返回数据 是否忽略null值  non_null-忽略null值

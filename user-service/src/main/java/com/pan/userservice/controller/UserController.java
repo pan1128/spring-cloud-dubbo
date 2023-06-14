@@ -86,7 +86,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/selectAllPage")
-    public RespenseBean selectAllPage(@RequestBody UserSearchDTO userSearchDTO) {
+    public RespenseBean selectAllPage(String name,@RequestBody UserSearchDTO userSearchDTO) {
         PageInfo page = userService.selectAllPage(userSearchDTO);
         return RespenseBean.success(page);
     }
