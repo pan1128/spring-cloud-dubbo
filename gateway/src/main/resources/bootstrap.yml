@@ -1,0 +1,29 @@
+server:
+  port: 8080
+spring:
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        namespace: dev
+        group: DEFAULT_GROUP
+        server-addr: 192.168.197.128:8848
+    gateway:
+      routes:
+        - id: userService
+          uri: lb://userService
+          predicates:
+            - Path=/user/**
+#          filters:
+#            - StripPrefix=1
+        - id: orderService
+          uri: lb://orderService
+          predicates:
+            - Path=/order/**
+      discovery:
+        locator:
+          enabled: true
+
+  application:
+    name: gateway
+
