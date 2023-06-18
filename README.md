@@ -7,6 +7,7 @@ spring-cloud-alibaba、springboot、springcloud、dubbo项目脚手架，开箱�
 ``` lua
 
 ├── common -- 工具类及通用代码模块
+├── gateway -- 网关微服务
 ├── user-service -- 用户微服务
 ├── order-service -- 订单微服务
 └── config -- 配置中心存储的配置
