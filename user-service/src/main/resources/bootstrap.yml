@@ -138,3 +138,8 @@ seata:
       cluster: default
       username: nacos
       password: nacos
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

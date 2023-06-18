@@ -26,6 +26,7 @@
         <module>user-service</module>
         <module>order-service</module>
         <module>common</module>
+        <module>gateway</module>
     </modules>
     <dependencyManagement>
         <dependencies>
