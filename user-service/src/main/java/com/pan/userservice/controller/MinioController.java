@@ -1,6 +1,6 @@
 package com.pan.userservice.controller;
 
-import com.pan.common.entity.RespenseBean;
+import com.pan.common.entity.ResponseBean;
 import io.minio.*;
 import lombok.SneakyThrows;
 import org.springframework.http.ContentDisposition;
@@ -33,7 +33,7 @@ public class MinioController {
      */
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     @SneakyThrows
-    public RespenseBean upload(String bucketName, @RequestParam("file") MultipartFile file){
+    public ResponseBean upload(String bucketName, @RequestParam("file") MultipartFile file){
         BucketExistsArgs bucketExistsArgs = BucketExistsArgs.builder().bucket(bucketName).build();
         boolean bucketExists = minioClient.bucketExists(bucketExistsArgs);
         String fileName = file.getOriginalFilename();
@@ -52,7 +52,7 @@ public class MinioController {
                         .contentType(contentType)
                         .build()
         );
-        return RespenseBean.success(null);
+        return ResponseBean.success(null);
     }
 
 

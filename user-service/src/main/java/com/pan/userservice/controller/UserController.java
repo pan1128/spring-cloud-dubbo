@@ -4,7 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.github.pagehelper.PageInfo;
 import com.pan.common.dto.UserSearchDTO;
 import com.pan.common.dto.UserToken;
-import com.pan.common.entity.RespenseBean;
+import com.pan.common.entity.ResponseBean;
 import com.pan.common.entity.User;
 import com.pan.common.service.UserService;
 import com.pan.userservice.common.ProjectProperty;
@@ -45,17 +45,17 @@ public class UserController {
     private MongodbUserRepository mongodbUserRepository;
 
     @GetMapping("/test/{id}")
-    public RespenseBean hello(@PathVariable Integer id) {
+    public ResponseBean hello(@PathVariable Integer id) {
         User user1 = new User();
         user1.setName("11");
         user1.setAge(211);
         User user = userService2.insert(user1);
-        return RespenseBean.success(user);
+        return ResponseBean.success(user);
     }
     @PostMapping("/add")
-    public RespenseBean add(@RequestBody User user) {
+    public ResponseBean add(@RequestBody User user) {
         User insert = userService.insert(user);
-        return RespenseBean.success(insert);
+        return ResponseBean.success(insert);
     }
 
 
@@ -64,7 +64,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/selectAll")
-    public RespenseBean selectAll() throws InterruptedException {
+    public ResponseBean selectAll() throws InterruptedException {
 //        TimeUnit.SECONDS.sleep(3);
         RLock lock = redisson.getLock("all");
         boolean tryLock = lock.tryLock();
@@ -72,12 +72,12 @@ public class UserController {
             try {
                 List<User> list = userService.selectAll();
 
-                return RespenseBean.success(list);
+                return ResponseBean.success(list);
             }finally {
                 lock.unlock();
             }
         }
-        return RespenseBean.success(null);
+        return ResponseBean.success(null);
     }
 
     /**
@@ -86,9 +86,9 @@ public class UserController {
      * @return
      */
     @PostMapping("/selectAllPage")
-    public RespenseBean selectAllPage(String name,@RequestBody UserSearchDTO userSearchDTO) {
+    public ResponseBean selectAllPage(String name, @RequestBody UserSearchDTO userSearchDTO) {
         PageInfo page = userService.selectAllPage(userSearchDTO);
-        return RespenseBean.success(page);
+        return ResponseBean.success(page);
     }
 
     /**
@@ -97,7 +97,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public RespenseBean login(@Validated @RequestBody User user) {
+    public ResponseBean login(@Validated @RequestBody User user) {
         UserToken userDto = userService.login(user);
         MongodbUser mongodbUser = new MongodbUser();
         mongodbUser.setContent("评论");
@@ -106,7 +106,7 @@ public class UserController {
 
 
         MongodbUser insert = mongodbUserRepository.insert(mongodbUser);
-        return RespenseBean.success(userDto, "登录成功");
+        return ResponseBean.success(userDto, "登录成功");
     }
 
     /**
@@ -115,9 +115,9 @@ public class UserController {
      * @return
      */
     @PostMapping("/logout")
-    public RespenseBean logout() {
+    public ResponseBean logout() {
         UserToken userDto = userService.logout(null);
-        return RespenseBean.success(userDto, "退出成功");
+        return ResponseBean.success(userDto, "退出成功");
     }
 
     /**
@@ -136,8 +136,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/userRegister")
-    public RespenseBean register(@RequestBody User user) {
+    public ResponseBean register(@RequestBody User user) {
         User returnUser = userService.register(user);
-        return RespenseBean.success(returnUser);
+        return ResponseBean.success(returnUser);
     }
 }

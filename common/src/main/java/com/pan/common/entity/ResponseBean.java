@@ -1,27 +1,27 @@
 package com.pan.common.entity;
 
 
-public class RespenseBean<T> {
+public class ResponseBean<T> {
 
     private String msg;
     private T data;
     private Integer code;
 
 
-    public RespenseBean(String msg, T data, Integer code) {
+    public ResponseBean(String msg, T data, Integer code) {
         this.msg = msg;
         this.data = data;
         this.code = code;
     }
 
-    public static <T> RespenseBean success(T data){
-        return new RespenseBean("请求成功", data, 200);
+    public static <T> ResponseBean success(T data){
+        return new ResponseBean("请求成功", data, 200);
     }
-    public static <T> RespenseBean success(T data,String msg){
-        return new RespenseBean(msg, data, 200);
+    public static <T> ResponseBean success(T data, String msg){
+        return new ResponseBean(msg, data, 200);
     }
-    public static <T> RespenseBean fail(String msg){
-        return new RespenseBean(msg, null, 500);
+    public static <T> ResponseBean fail(String msg){
+        return new ResponseBean(msg, null, 500);
     }
 
     public String getMsg() {

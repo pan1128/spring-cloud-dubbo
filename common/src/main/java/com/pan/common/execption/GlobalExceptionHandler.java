@@ -1,8 +1,7 @@
 package com.pan.common.execption;
 
 
-import com.pan.common.entity.RespenseBean;
-import com.pan.common.execption.TokenExecption;
+import com.pan.common.entity.ResponseBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -21,15 +20,15 @@ public class GlobalExceptionHandler {
     
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = {Throwable.class})
-    public RespenseBean exeptionHandler(Throwable e){
+    public ResponseBean exeptionHandler(Throwable e){
         log.error(e.getMessage(), e);
-        RespenseBean respenseBean = new RespenseBean(e.toString(), null, 500);
-        return respenseBean;
+        ResponseBean responseBean = new ResponseBean(e.toString(), null, 500);
+        return responseBean;
     }
 
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-    public RespenseBean exeptionHandler(MethodArgumentNotValidException e){
+    public ResponseBean exeptionHandler(MethodArgumentNotValidException e){
         BindingResult bindingResult = e.getBindingResult();
         StringBuilder sb = new StringBuilder();
         if (bindingResult.hasFieldErrors()) {
@@ -43,15 +42,15 @@ public class GlobalExceptionHandler {
                 });
             }
         }
-        RespenseBean respenseBean = new RespenseBean(sb.toString(), null, 500);
-        return respenseBean;
+        ResponseBean responseBean = new ResponseBean(sb.toString(), null, 500);
+        return responseBean;
     }
 
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = {TokenExecption.class})
-    public RespenseBean exeptionHandler(TokenExecption e){
+    public ResponseBean exeptionHandler(TokenExecption e){
         log.error(e.getMessage(), e);
-        RespenseBean respenseBean = new RespenseBean(e.getMessage(), null, 500);
-        return respenseBean;
+        ResponseBean responseBean = new ResponseBean(e.getMessage(), null, 500);
+        return responseBean;
     }
 }

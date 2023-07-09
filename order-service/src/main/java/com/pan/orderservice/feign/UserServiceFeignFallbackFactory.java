@@ -1,6 +1,6 @@
 package com.pan.orderservice.feign;
 
-import com.pan.common.entity.RespenseBean;
+import com.pan.common.entity.ResponseBean;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -11,16 +11,16 @@ public class UserServiceFeignFallbackFactory implements FallbackFactory<UserServ
     public UserServiceFeign create(Throwable cause) {
         return new UserServiceFeign() {
             @Override
-            public RespenseBean hello(Integer id) {
+            public ResponseBean hello(Integer id) {
 
                 log.error(cause.getMessage(),cause);
-                return RespenseBean.fail("调用用户服务失败");
+                return ResponseBean.fail("调用用户服务失败");
             }
 
             @Override
-            public RespenseBean selectAll(String token) {
+            public ResponseBean selectAll(String token) {
                 log.error(cause.getMessage(),cause);
-                return RespenseBean.fail("调用用户服务失败");
+                return ResponseBean.fail("调用用户服务失败");
             }
         };
     }
