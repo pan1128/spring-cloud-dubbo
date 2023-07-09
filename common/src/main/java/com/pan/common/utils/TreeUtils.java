@@ -13,12 +13,7 @@ import java.util.stream.Collectors;
  */
 public class TreeUtils {
 
-    /**
-     * 构造数
-     * @param treeNodeList
-     * @param pid 根节点 pid
-     * @return
-     */
+
     public static List<TreeNode> toTree(List<TreeNode> treeNodeList,Integer pid) {
         //pid -> children 父id对应的 子节点集合
         Map<Integer, List<TreeNode>> mapByPid = treeNodeList.stream().collect(Collectors.groupingBy(TreeNode::getPid));
@@ -28,6 +23,7 @@ public class TreeUtils {
                 treeNode.setChildrenList(children);
             }
         });
+        //根据pid获取子节点
         List<TreeNode> result = treeNodeList.stream().filter(treeNode -> treeNode.getPid() == pid).collect(Collectors.toList());
         return result;
     }

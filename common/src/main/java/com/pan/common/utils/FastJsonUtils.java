@@ -33,8 +33,11 @@ public class FastJsonUtils {
      * @param <T>
      */
     public static <T> T json2Obj(String json,TypeReference<T> reference) {
+        //Configure the date format of the JSON object
         JSON.configReaderDateFormat("yyyy-MM-dd HH:mm:ss");
+        //Parse the JSON object to the specified type
         T t = JSON.parseObject(json, reference);
+        //Return the parsed object
         return t;
     }
 
