@@ -1,6 +1,7 @@
 package com.pan.common.config;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
@@ -40,7 +41,9 @@ public class Jack2jsonConfig {
                     //反序列化LocalTime
                     .deserializers(new LocalTimeDeserializer(DateTimeFormatter.ofPattern("HH:mm:ss")))
                     //反序列化LocalDateTime
-                    .deserializers(new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(pattern)));
+                    .deserializers(new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(pattern)))
+                    //序列化忽略null属性
+                    .serializationInclusion(JsonInclude.Include.NON_NULL);
         };
     }
 }
